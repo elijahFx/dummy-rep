@@ -1,17 +1,40 @@
-const http = require('http')
+const { readFile, writeFile, read } = require('fs').promises
+//const { get } = require('http')
+//const util = require('util')
+//const readFilePromise = util.promisify(readFile)
+//const writeFilePromise = util.promisify(writeFile)
 
-const server = http.createServer((req, res) => {
-    if(req.url === "/") {
-        res.end("Welcome to our main page")
+
+
+
+async function start() {
+    try {
+        const first = await readFile('./first.txt', 'utf8')
+        const second = await readFile('./second.txt', 'utf8')
+        await writeFile('./fourth.txt', ` ${first} ${second}`, {flag: "a"})
+    } catch(error) {
+        console.log(error);
     }
-    else if(req.url === "/about") {
-        res.end("So our history includes helping green people and building multiple railroads")
-    } else {
-    res.end(`<h1>Ooooops</h1>
-    <p>I guess we've shitted out pants a little bit</p>
-    <a href="/">Back Home</a>
-    `)}
-})
+}
 
-server.listen(5000)
 
+start()
+
+/*
+function getText(path) {
+    return new Promise((resolve, reject) => {
+        readFile(path, 'utf8', (err, data) => {
+            if(err) {
+                reject(err)
+            } else {
+                resolve(data)
+            }
+        })
+    }) 
+}
+*/
+
+/*
+getText('./first.txt')
+    .then(result => console.log(result))
+    .catch(err => console.log(err))*/
